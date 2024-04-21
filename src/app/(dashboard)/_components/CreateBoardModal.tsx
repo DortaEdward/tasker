@@ -1,6 +1,5 @@
 "use client"
-import { Preahvihear } from "next/font/google";
-import React, { Dispatch, FormEvent, SetStateAction, useState } from "react"
+import React, { Dispatch, FormEvent, ChangeEvent, SetStateAction, useState } from "react"
 import { MdClose } from "react-icons/md";
 
 type Props = {
@@ -19,35 +18,37 @@ export default function CreateBoardModal({ toggleCreateBoard, setToggleCreateBoa
   const [boardData, setBoardData] = useState<BoardDataType>({
     title: "",
     description: "",
-    subtasks: ["Add water"],
+    subtasks: [""],
     status: "",
   })
   const [subtask, setSubtask] = useState<string>("")
 
-  function handleSubmit(e: React.FormEvent) {
+  function handleSubmit(e: FormEvent) {
     e.preventDefault()
-    console.log("Hitting")
     console.log(boardData)
   }
 
-  function handleUpdateState(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) {
+  function handleUpdateState(e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) {
     setBoardData({
       ...boardData,
       [e.target.name]: e.target.value
     })
   }
 
-  function addSubtask(e: React.FormEvent) {
+  function addSubtask(e: FormEvent) {
     e.preventDefault()
     if (subtask.length <= 0) return
 
-    setBoardData({
-      ...boardData,
-      subtasks: [...boardData.subtasks, subtask]
-    })
+    if (!boardData.subtasks.indexOf(subtask)) {
+      setBoardData({
+        ...boardData,
+        subtasks: [...boardData.subtasks, subtask]
+      })
+    }
+
     setSubtask("")
   }
-  function removeSubtask(name: string, e: React.FormEvent) {
+  function removeSubtask(name: string, e: FormEvent) {
     e.preventDefault()
     setBoardData((prev) => ({
       ...prev,
@@ -95,7 +96,7 @@ export default function CreateBoardModal({ toggleCreateBoard, setToggleCreateBoa
               }
             </div>
           </div>
-          <input placeholder="e.g. Make coffee" onChange={(e) => setSubtask(e.target.value)} className="bg-transparent border border-gray-400 px-3 py-1 rounded text-sm flex-1" />
+          <input placeholder="e.g. Make coffee" onChange={(e) => setSubtask(e.target.value)} className="bg-transparent border border-gray-400 px-3 py-1 rounded text-sm flex-1" value={subtask} />
           <button type="button" onClick={addSubtask} className="bg-gray-100 text-indigo-500 font-medium text-xs py-2 rounded-2xl">+ Add New Subtask</button>
         </fieldset>
 
