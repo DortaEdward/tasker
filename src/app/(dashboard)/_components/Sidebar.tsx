@@ -1,15 +1,15 @@
-"use client"
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { SiTask } from "react-icons/si";
+import { db } from "@/server/db";
+import { Board } from "@prisma/client";
 
 type Props = {
   setToggleCreateBoard: Dispatch<SetStateAction<boolean>>;
+  boards: Board[]
 }
 
-export default function Sidebar({ setToggleCreateBoard }: Props) {
-  const [active, setActive] = useState(false);
-  const arr = [1, 2];
-  const boards = false;
+export default function Sidebar({ boards, setToggleCreateBoard }: Props) {
+  const active = false
 
   function truncateText(text: string) {
     const limit = 8
@@ -26,14 +26,14 @@ export default function Sidebar({ setToggleCreateBoard }: Props) {
         <h1 className="text-2xl font-bold text-white text-center text-indigo-500">Tasky</h1>
       </section>
       <section className="flex-1 overflow-y-auto flex flex-col gap-4">
-        <p className="capitalize mx-auto text-gray-300">All Boards ({arr.length})</p>
+        <p className="capitalize mx-auto text-gray-300">All Boards ({boards.length})</p>
         <div className="flex flex-col gap-2 pr-4 flex-1 pb-4 w-full">
           {
-            arr.map(el => {
+            boards.map(el => {
               return (
-                <div key={el} className={`w-full px-2 bg-indigo-600 cursor-pointer hover:bg-indigo-800 rounded-r-lg flex py-1 items-center gap-2 ${active ? "text-white" : "text-gray-200"}`}>
+                <div key={el.id} className={`w-full px-2 bg-indigo-600 cursor-pointer hover:bg-indigo-800 rounded-r-lg flex py-1 items-center gap-2 ${active ? "text-white" : "text-gray-200"}`}>
                   <SiTask />
-                  <p className="text-sm">{truncateText("Board Name For the test")}</p>
+                  <p className="text-sm">{truncateText(el.title)}</p>
                 </div>
               )
             })
