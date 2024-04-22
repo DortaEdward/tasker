@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 import { SiTask } from "react-icons/si";
 import { db } from "@/server/db";
 import { Board } from "@prisma/client";
+import Link from "next/link";
 
 type Props = {
   setToggleCreateBoard: Dispatch<SetStateAction<boolean>>;
@@ -31,10 +32,10 @@ export default function Sidebar({ boards, setToggleCreateBoard }: Props) {
           {
             boards.map(el => {
               return (
-                <div key={el.id} className={`w-full px-2 bg-indigo-600 cursor-pointer hover:bg-indigo-800 rounded-r-lg flex py-1 items-center gap-2 ${active ? "text-white" : "text-gray-200"}`}>
+                <Link href={`/dashboard/${el.id}`} key={el.id} className={`w-full px-2 bg-indigo-600 cursor-pointer hover:bg-indigo-800 rounded-r-lg flex py-1 items-center gap-2 ${active ? "text-white" : "text-gray-200"}`}>
                   <SiTask />
                   <p className="text-sm">{truncateText(el.title)}</p>
-                </div>
+                </Link>
               )
             })
           }

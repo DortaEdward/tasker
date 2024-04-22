@@ -3,7 +3,7 @@ import React, { Dispatch, FormEventHandler, SetStateAction, useState } from "rea
 import { MdClose } from "react-icons/md";
 import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { createBoard } from "../_serverActions";
+import { createBoardAction } from "../_serverActions";
 
 type Props = {
   toggleCreateBoard: boolean
@@ -17,7 +17,7 @@ export default function CreateBoardModal({ toggleCreateBoard, setToggleCreateBoa
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    const boardId = await createBoard(boardTitle, userId!)
+    const boardId = await createBoardAction(boardTitle, userId!)
     if (boardId) {
       router.refresh()
     }
