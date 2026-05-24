@@ -54,7 +54,6 @@ class TaskList {
 public:
   TaskList(std::vector<Task> t) : tasks(t) {}
   TaskList() {}
-
   int getCount() { return tasks.size(); }
   std::vector<Task> getTasks() { return tasks; };
   void addToList(const Task &t) { tasks.push_back(t); }
@@ -75,18 +74,6 @@ public:
 private:
   std::vector<Task> tasks;
 };
-
-/*
-  Task Type
-  content string
-  complete bool
-
-  cmds
-  add
-  remove
-  complete
-
-*/
 
 void MissingArgumentsMessage() {
   std::cout << "ERROR: Missing Arguments" << std::endl;
@@ -161,6 +148,9 @@ void loadFromFile(TaskList &taskL) {
     counter++;
   }
 
+  for (int i = 0; i < ids.size(); ++i) {
+    std::cout << ids[i] << " | " << content[i] << " | " << completed[i] << "\n";
+  }
   f.close();
 
   for (int x = 0; x < counter; ++x) {
