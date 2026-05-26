@@ -57,6 +57,16 @@ public:
   int getCount() { return tasks.size(); }
   std::vector<Task> getTasks() { return tasks; };
   void addToList(const Task &t) { tasks.push_back(t); }
+  void clear() {
+
+    std::ofstream f;
+    f.open(FILEPATH, std::ios::out);
+    if (f.fail()) {
+      std::cerr << "ERROR: Unable to open file\n";
+    }
+    f << "";
+    f.close();
+  }
   void listTasks() {
     for (int i = 0; i < tasks.size(); ++i) {
       std::cout << tasks[i].getId() << " | " << tasks[i].getContent() << " | "
@@ -173,6 +183,7 @@ void saveToFile(TaskList &ts) {
     f << tasks[i].getId() << '\t' << tasks[i].getContent() << '\t'
       << tasks[i].getIsComplete() << '\n';
   }
+  f.close();
 }
 
 int main(int argc, char *argv[]) {
@@ -192,18 +203,22 @@ int main(int argc, char *argv[]) {
     tl.listTasks();
   }
 
-  if (cmd == "-remove") {
+  if (cmd == "-r") {
     std::cout << argv[2] << std::endl;
     tl.removeFromList(argv[2]);
     saveToFile(tl);
   }
 
-  if (cmd == "-add") {
+  if (cmd == "-a") {
     std::string c = MakeToString(argv, argc);
     Task newTask = Task(c);
     tl.addToList(newTask);
     saveToFile(tl);
     return 0;
+  }
+
+  if (cmd == "-c") {
+    tl.clear();
   }
 
   /*
